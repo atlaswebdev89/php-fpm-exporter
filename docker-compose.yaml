@@ -6,13 +6,12 @@ networks:
 
 # Command в докер compose переопределяет CMD в Dockerfile
 services:
-  fpm-exporter:
-    image: hipages/php-fpm_exporter
-    container_name: fpm-exporter
+  php-fpm-exporter:
+    image: bakins/php-fpm-exporter:v0.6.1
+    container_name: php-fpm-exporter
     restart: unless-stopped
+    command: ["--endpoint", "http://nginx/status-fpm", "--addr", "0.0.0.0:8080"]
     ports:
-      - "9253:9253"
-    environment:
-      - PHP_FPM_SCRAPE_URI=http://nginx/status-fpm
+      - "9253:8080"
     networks:
       - telegram
