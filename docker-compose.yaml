@@ -1,0 +1,18 @@
+version: "3.8"
+
+networks:
+  telegram:
+    driver: bridge
+
+# Command в докер compose переопределяет CMD в Dockerfile
+services:
+  fpm-exporter:
+    image: hipages/php-fpm_exporter
+    container_name: fpm-exporter
+    restart: unless-stopped
+    ports:
+      - "9253:9253"
+    environment:
+      - PHP_FPM_SCRAPE_URI=http://nginx/status-fpm
+    networks:
+      - telegram
